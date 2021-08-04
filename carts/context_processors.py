@@ -1,0 +1,17 @@
+from .models import Cart, CartItem
+from .views import _cart_id
+
+
+def counter(request):
+    cart_count = 0
+    if 'admin' in request.path:
+        return{}
+    else:
+        try:
+            cart = Cart.objects.filter(is_active=True)
+            cart_items = CartItem.objects.all().filter(cart=cart[:1])
+            for cart_itme in cart_items:
+                cart_count +=cart_itme.quantity
+        except Cart.DoesNotExist:
+            cart_count = 0
+    return dict(cart_count=cart_count)
