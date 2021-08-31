@@ -1,17 +1,15 @@
+
+from .models import Account, UserProfile
 from django import forms
-from django.db import models
-from django.forms import fields
-from . models import Account
 
 
 class RegistrationForm(forms.ModelForm):
-    password = forms.CharField(widget=forms.PasswordInput(attrs= {'placeholder' : 'Enter Password'}))
-    confirm_password = forms.CharField(widget=forms.PasswordInput(attrs= {'placeholder' : 'Confirm Password'}))
-    
+    password = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Enter Password'}))
+    confirm_password = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Confirm Password'}))
+
     class Meta:
         model = Account
-        fields = ['first_name', 'last_name','phone_number', 'email', 'password']
-
+        fields = ['first_name', 'last_name', 'phone_number', 'email', 'password']
 
     def __init__(self, *args, **kwargs):
         super(RegistrationForm, self).__init__(*args, **kwargs)
@@ -31,3 +29,15 @@ class RegistrationForm(forms.ModelForm):
             raise forms.ValidationError(
                 "Password does not match!"
             )
+
+
+class UserForm(forms.ModelForm):
+    class Meta:
+        model = Account
+        fields = ('first_name', 'last_name', 'phone_number')
+
+
+class UserProfileFrom(forms.ModelForm):
+    class Meta:
+        model = UserProfile
+        fields = ('address_line_1', 'address_line_2', 'city', 'state', 'country', 'profile_picture')
